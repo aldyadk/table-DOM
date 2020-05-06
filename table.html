@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Data Student</title>
+        <style>
+            body {
+                padding-top: 50px;
+            }
+            .container {
+                border: 1px solid black;
+                width: 500px;
+                margin:auto;
+                padding: 50px;
+                background-color: burlywood;
+                margin-bottom: 50px;
+            }
+            form {
+                width: 100px;
+                margin:auto;
+            }
+            table {
+                width: 500px;
+                margin:auto;
+            }
+            table, td, th {
+                border: 1px solid black;
+                border-collapse: collapse;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <form>
+                <label>Nama</label>
+                <br>
+                <input type="text" name="nama_user">
+                <br>
+                <label>Alamat</label>
+                <br>
+                <input type="text" name="alamat_user">
+                <br>
+                <label>Tanggal Lahir</label>
+                <br>
+                <input type="date" name="tgl_lahir_user">
+                <br>
+                <button id="addUserButton" type="button">Add User</button>
+                <button type="reset">Clear</button>
+            </form>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Tanggal Lahir</th>
+                    <th>X</th>
+                </tr>
+            </thead>
+            <tbody id="target">
+            </tbody>
+        </table>
+        <script>
+            document
+                .querySelector("#addUserButton")
+                .addEventListener('click',addUser)
+
+            var nama_user = document.querySelector('[name=nama_user]');
+            var alamat_user = document.querySelector('[name=alamat_user]');
+            var tgl_lahir_user = document.querySelector('[name=tgl_lahir_user]');
+
+            function addUser() {
+                var isFormValid = validateForm();
+                if(!isFormValid){
+                    alert('lengkapi dulu datanya!')
+                    return
+                }
+                var row = document.createElement('tr');
+                var nama_user_cell = document.createElement('td');
+                nama_user_cell.textContent = nama_user.value;
+                var alamat_user_cell = document.createElement('td');
+                alamat_user_cell.textContent = alamat_user.value;
+                var tgl_lahir_user_cell = document.createElement('td');
+                tgl_lahir_user_cell.textContent = tgl_lahir_user.value;
+                var delete_cell = document.createElement('td');
+                var delete_button = document.createElement('button');
+                delete_button.textContent = "Hapus";
+                delete_button.addEventListener('click',deleteRow)
+                delete_cell.append(delete_button);
+
+                row.append(nama_user_cell,alamat_user_cell,tgl_lahir_user_cell,delete_cell);
+                document.querySelector('#target').append(row);
+
+                clearForm()                
+            }
+
+            function validateForm(){
+                if(!nama_user.value || !alamat_user.value || !tgl_lahir_user.value){
+                    return false
+                } else {
+                    return true
+                }
+            }
+
+            function clearForm() {
+                nama_user.value = "";
+                alamat_user.value = "";
+                tgl_lahir_user.value = "";
+            }
+
+            function deleteRow(event) {
+                var targetRow = event.target.parentElement.parentElement;
+                targetRow.parentElement.removeChild(targetRow);
+            }
+
+        </script>
+    </body>
+</html>
